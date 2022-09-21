@@ -6,13 +6,13 @@ from rest_framework_simplejwt.views import (
     TokenObtainPairView,
     TokenRefreshView,
 )
-from core.views import LoginAPIView,SchoolRegistrationView,StudentRegistrationView,SchoolsFetch, SchoolAvatarUpload, StudentAvatarUpload, UpdateSchoolProfileView, UpdateStudentProfileView
+from core.views import LoginAPIView,SchoolRegistrationView,StudentRegistrationView,SchoolsFetch, SchoolAvatarUpload, StudentAvatarUpload,AddLicense, UpdateSchoolProfileView, UpdateStudentProfileView
 
 urlpatterns = [
     path('',SchoolsFetch.as_view(),name="SchoolsList"),
     path('register_school/',SchoolRegistrationView.as_view(),name="school_register"),
     path('register_student/',StudentRegistrationView.as_view(),name="student_register"),
-
+    path('add_license/',AddLicense.as_view(),name="student_register"),
     path('login/',LoginAPIView.as_view(),name="login"),
     path('school_update/',UpdateSchoolProfileView.as_view(),name="update"),
     path('student_update/',UpdateStudentProfileView.as_view(),name="update"),

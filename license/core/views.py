@@ -21,7 +21,7 @@ from rest_framework import views
 from core.serializers import EmailVerificationSerializer,EmailCheckSerializer,UnameSuggestSerializer,UnameCheckSerializer,LoginSerializer,PasswordResetEmailSerializer,ChangePwdSerializer,UserAvatarSerializer
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
-from .models import School, Student, User
+from .models import License, School, Student, User
 from .utils import Util
 from django.contrib.sites.shortcuts import get_current_site
 from django.urls import reverse
@@ -43,7 +43,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from django.shortcuts import render
 from rest_framework import serializers
 from rest_framework.generics import ListCreateAPIView,RetrieveUpdateDestroyAPIView
-from .serializers import  SchoolSerializer, StudentSerializer,UpdateStudentProfileSerializer,UpdateSchoolProfileSerializer
+from .serializers import  LicenseSerializer, SchoolSerializer, StudentSerializer,UpdateStudentProfileSerializer,UpdateSchoolProfileSerializer
 from rest_framework import permissions
 from .permissions import IsPostedBy
 
@@ -148,6 +148,20 @@ class SchoolAvatarUpload(views.APIView):
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+
+class AddLicense(GenericAPIView):
+    parser_classes = [MultiPartParser, FormParser]
+    renderer_classes =(UserRenderer,)
+    serializer_class = LicenseSerializer
+    def post(self, request, format=None):
+        license=request.data.get('license_id')
+        serializer = LicenseSerializer(data=request.data, instance=license)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        else:
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)  
+
 
 class StudentAvatarUpload(views.APIView):
     parser_classes = [MultiPartParser, FormParser]
